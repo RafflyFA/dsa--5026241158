@@ -87,9 +87,7 @@ public class PreLab {
 
         while (!failedTransactions.isEmpty()) {
             String[] failed = failedTransactions.pop();
-            System.out.println(
-                failed[0] + " " + failed[1] + " " + failed[2]
-            );
+            System.out.println(failed[0] + " " + failed[1] + " " + failed[2]);
         }
     }
 }
