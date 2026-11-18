@@ -175,45 +175,40 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[] namaFile = {"metro1.txt", "metro2.txt"};
-        Scanner input;
+        Scanner input = new Scanner(Main.class.getResourceAsStream("metro1.txt"));
+        size = input.nextInt();
+        names = new String[size];
+        for (int i = 0; i < size; i++) {
+            names[i] = input.next();
+        }
+        graph = new int[size][size];
+        int E = input.nextInt();
 
-        for (int file = 0; file < namaFile.length; file++) {
-            input = new Scanner(Main.class.getResourceAsStream(namaFile[file]));
-            size = input.nextInt();
-            names = new String[size];
-            for (int i = 0; i < size; i++) {
-                names[i] = input.next();
-            }
-            graph = new int[size][size];
-            int E = input.nextInt();
-            for (int i = 0; i < E; i++) {
-                int from = input.nextInt();
-                int to = input.nextInt();
-                int minutes = input.nextInt();
-                addEdge(from, to, minutes);
-            }
-            int start = input.nextInt();
-            int destination = input.nextInt();
-            input.close();
-            System.out.println();
-            System.out.println("========== " + namaFile[file] + " ==========");
-            List<Integer> bfsOrder = bfs(start);
-            System.out.println("=== Station Levels from " + names[start] + " ===");
-            printLevels(bfsOrder);
-            List<Integer> fewestPath = buildPath(destination, bfsPrev, start);
-            printSummary("Fewest Stops Route from " + names[start] + " to " + names[destination], fewestPath);
-            dijkstraAlg(start);
-            List<Integer> fastestPath = buildPath(destination, dijkstraPrev, start);
-            printSummary("Fastest Route from " + names[start] + " to " + names[destination], fastestPath);
-            System.out.println("=== Comparison ===");
-            if (fewestPath.equals(fastestPath)) {
-                System.out.println("Both routes are the same.");
-            } else {
-                int timeSaved = pathTime(fewestPath) - pathTime(fastestPath);
-                int extraStops = fastestPath.size() - fewestPath.size();
-                System.out.println("The fastest route saves " + timeSaved + " min but needs " + extraStops + " more stops.");
-            }
+        for (int i = 0; i < E; i++) {
+            int from = input.nextInt();
+            int to = input.nextInt();
+            int minutes = input.nextInt();
+            addEdge(from, to, minutes);
+        }
+        int start = input.nextInt();
+        int destination = input.nextInt();
+        input.close();
+
+        List<Integer> bfsOrder = bfs(start);
+        System.out.println("=== Station Levels from " + names[start] + " ===");
+        printLevels(bfsOrder);
+        List<Integer> fewestPath = buildPath(destination, bfsPrev, start);
+        printSummary("Fewest Stops Route from " + names[start] + " to " + names[destination], fewestPath);
+        dijkstraAlg(start);
+        List<Integer> fastestPath = buildPath(destination, dijkstraPrev, start);
+        printSummary("Fastest Route from " + names[start] + " to " + names[destination], fastestPath);
+        System.out.println("=== Comparison ===");
+        if (fewestPath.equals(fastestPath)) {
+            System.out.println("Both routes are the same.");
+        } else {
+            int timeSaved = pathTime(fewestPath) - pathTime(fastestPath);
+            int extraStops = fastestPath.size() - fewestPath.size();
+            System.out.println("The fastest route saves " + timeSaved + " min but needs " + extraStops + " more stops.");
         }
     }
 }
